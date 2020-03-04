@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor // Lombok crea un costruttore senza parametri
 @EntityScan // Indica che e' entità delle JPA
 @Table(name = "users") // Mappa una tabella
+@SpringBootApplication
 public class User {
 
     @Id                               //JPA id of the table
@@ -46,7 +48,5 @@ public class User {
     @Getter
     @Setter
     private String permission;
-
-
 
 }

@@ -5,22 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-
+@Entity // Indica che e' entità delle JPA
 @AllArgsConstructor // Lombok crea un costruttore di default
 @NoArgsConstructor // Lombok crea un costruttore senza parametri
-@EntityScan // Indica che e' entità delle JPA
 @Table(name = "users") // Mappa una tabella
-@SpringBootApplication
 public class User {
 
     @Id                               //JPA id of the table

@@ -41,22 +41,25 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class RestController {
 
 
+    //@Autowired
+    //LoginService loginService;
+
     // Mapping delle richiesta sull URL .../hello
     @RequestMapping(value = "/hello")
-    // La stringa che venga restuita da questo metodo sara'
-    // dirattamnete nel corpo della risposta HTTP
+    // La stringa che venga restituita da questo metodo sara'
+    // direttamente nel corpo della risposta HTTP
     public String sayHello() {
         return "Hello everyone!";
     }
 
     // Data bading
-    //if pwd is null it will still return a user
+    // if pwd is null it will still return a user
     @RequestMapping("/newuser1")
     public String addUser(User user) {
         return "User added correctly:" + user.getId() + ", " + user.getUsername();
     }
 
-    //if pwd is null it will return a JAVA JSR-303 error message thanks to @Valid
+    // if pwd is null it will return a JAVA JSR-303 error message thanks to @Valid
     @RequestMapping("/newuser2")
     public String addUserValid(@Valid User user) {
         return "User added correctly:" + user.getId() + ", " + user.getUsername();
@@ -139,8 +142,7 @@ public class RestController {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = POST)
-    // "@RequestParam(value="password")" per richiedere il volore password ma dare un nome diveso alla variabile
-    // in questo caso "pwd"
+    // "@RequestParam(value="password")" per richiedere il valore password ma con un nome diverso al campo password
     public ResponseEntity<JsonResponseBody> loginUser(@RequestParam(value = "id") String id
             , @RequestParam(value = "password") String pwd) {
         // Check if user exists in DB -> if exists generate JWT and send back to client

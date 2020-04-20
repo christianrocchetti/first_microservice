@@ -65,10 +65,12 @@ public class RestController {
     // if pwd is null it will return a JAVA JSR-303 error message thanks to @Valid
     @RequestMapping("/newuser2")
     public String addUserValid(@Valid User user) {
-        return "User added correctly:" + user.getId() + ", " + user.getUsername();
+        return "User added correctly:";
     }
 
-    //if pwd is null it will return a JAVA JSR-303 error message thanks to Spring object BindingResult
+    // if pwd is null it will return a JAVA JSR-303 error message thanks to Spring object BindingResult
+    // L'oggetto "BindingResult" cattura gli errori il formato viene modificato da JSON e in errori Spring
+    // con una loro sintassi
     @RequestMapping("/newuser3")
     public String addUserValidPlusBinding(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
@@ -164,8 +166,10 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new JsonResponseBody(HttpStatus.FORBIDDEN.value()
                     , "Token Error" + e2.toString()));
         }
+        // Se lo user non presente non viene lanciata un eccezione!! Quindi se non è entrato
+        // nell if del try-chach significa che l'utente non è presente
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new JsonResponseBody(HttpStatus.FORBIDDEN.value()
-                , "No corrispondence in the database of users"));
+                , "No correspondence in the database of users"));
     }
 
     // Qui viene fatta una richiesta tramite URL, e viene eseguita se viene degitato un URL del tipo:

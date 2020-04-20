@@ -65,22 +65,23 @@ public class RestController {
         return "User added correctly:" + user.getId() + ", " + user.getUsername();
     }
 
-    //if pwd is null it will return a JAVA JSR-303 error message thanks to Spring object BindingResult
+    // if pwd is null it will return a JAVA JSR-303 error message thanks to Spring object BindingResult
     @RequestMapping("/newuser3")
     public String addUserValidPlusBinding(@Valid User user, BindingResult result) {
+        // JAVA JSR-303 validation
         if (result.hasErrors()) {
             return result.toString();
         }
         return "User added correctly:" + user.getId() + ", " + user.getUsername();
     }
 
-    //if pwd is null it will return a SPRING VALIDATOR error message thanks to Spring object BindingResult
+    // if pwd is null it will return a SPRING VALIDATOR error message thanks to Spring object BindingResult
     @RequestMapping("/newuser4")
     public String addUserValidPlusBinding2(User user, BindingResult result) {
-        /* Spring validation */
+        // Spring validation
         UserValidator userValidator = new UserValidator();
         userValidator.validate(user, result);
-
+        // JAVA JSR-303 validation
         if (result.hasErrors()) {
             return result.toString();
         }

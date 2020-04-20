@@ -41,7 +41,7 @@ public class LoginServiceImpl implements LoginService{
                 log.info("Username and Password verified");
             }else{
                 log.info("Username verified. Password not");
-                throw new UserNotLoggedException("User not correctly logged in");
+                throw new UserNotLoggedException("User not correctly logged in, Wrong Password");
             }
         }
         return userr;

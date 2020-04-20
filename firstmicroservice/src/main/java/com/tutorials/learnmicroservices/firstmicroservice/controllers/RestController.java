@@ -2,10 +2,10 @@ package com.tutorials.learnmicroservices.firstmicroservice.controllers;
 
 import com.tutorials.learnmicroservices.firstmicroservice.entities.User;
 import com.tutorials.learnmicroservices.firstmicroservice.entities.Operation;
-//import com.tutorials.learnmicroservices.firstmicroservice.services.LoginService;
-//import com.tutorials.learnmicroservices.firstmicroservice.services.LoginServiceImpl;
-//import com.tutorials.learnmicroservices.firstmicroservice.services.OperationService;
-//import com.tutorials.learnmicroservices.firstmicroservice.utils.UserNotLoggedException;
+import com.tutorials.learnmicroservices.firstmicroservice.services.LoginService;
+import com.tutorials.learnmicroservices.firstmicroservice.services.LoginServiceImpl;
+import com.tutorials.learnmicroservices.firstmicroservice.services.OperationService;
+import com.tutorials.learnmicroservices.firstmicroservice.utils.UserNotLoggedException;
 
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,8 +41,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class RestController {
 
 
-    //@Autowired
-    //LoginService loginService;
+    @Autowired
+    LoginService loginService;
+
+    @Autowired
+    OperationService operationService;
 
     // Mapping delle richiesta sull URL .../hello
     @RequestMapping(value = "/hello")
@@ -62,10 +65,12 @@ public class RestController {
     // if pwd is null it will return a JAVA JSR-303 error message thanks to @Valid
     @RequestMapping("/newuser2")
     public String addUserValid(@Valid User user) {
-        return "User added correctly:" + user.getId() + ", " + user.getUsername();
+        return "User added correctly:";
     }
 
     // if pwd is null it will return a JAVA JSR-303 error message thanks to Spring object BindingResult
+    // L'oggetto "BindingResult" cattura gli errori il formato viene modificato da JSON e in errori Spring
+    // con una loro sintassi
     @RequestMapping("/newuser3")
     public String addUserValidPlusBinding(@Valid User user, BindingResult result) {
         // JAVA JSR-303 validation
@@ -162,11 +167,14 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new JsonResponseBody(HttpStatus.FORBIDDEN.value()
                     , "Token Error" + e2.toString()));
         }
+        // Se lo user non presente non viene lanciata un eccezione!! Quindi se non è entrato
+        // nell if del try-chach significa che l'utente non è presente
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new JsonResponseBody(HttpStatus.FORBIDDEN.value()
-                , "No corrispondence in the database of users"));
+                , "No correspondence in the database of users"));
     }
 
-
+    // Qui viene fatta una richiesta tramite URL, e viene eseguita se viene degitato un URL del tipo:
+    // "/operations/account/{account}" e "account" è parametro utilizzato per eseguire la richiesta
     @RequestMapping("/operations/account/{account}")
     public ResponseEntity<JsonResponseBody> fetchAllOperationsPerAccount(HttpServletRequest request
             , @PathVariable(name = "account") String account) {
